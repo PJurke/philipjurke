@@ -1,34 +1,41 @@
-# ===== STAGE 1: Build =====
-FROM node:23-alpine AS builder
+FROM node:23-alpine AS base
 
-# Set working directory
+# --- STEP 1: Install necessary packages
+FROM base AS deps
 WORKDIR /app
 
 # Copy dependencies
 COPY package*.json ./
-RUN npm ci --omit=dev
+RUN npm ci
 
-# Copy rest of the app
+# --- STEP 2: Rebuild the source code only when needed
+FROM base AS builder
+WORKDIR /app
+
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Build the Next.js app
 RUN npm run build
 
-# ===== STAGE 2: Run =====
-FROM node:23-alpine AS runner
-
+# --- STEP 3: Production image, copy all the files and run next
+FROM base AS runner
 WORKDIR /app
+
+ENV NODE_ENV=production
+
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
 
 # Copy only the necessary files from the builder stage
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./package.json
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-# Optional: if you use a custom server.js
-# COPY --from=builder /app/server.js ./server.js
+USER nextjs
 
-ENV NODE_ENV=production
+ENV PORT=3000
 EXPOSE 3000
 
-CMD ["npm", "start"]
+ENV HOSTNAME="0.0.0.0"
+CMD ["node", "server.js"]
