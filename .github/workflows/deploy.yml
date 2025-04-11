@@ -69,3 +69,17 @@ jobs:
           # Uses an environment-specific cache
           cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/philipjurke-${{ steps.set_env.outputs.environment }}:buildcache
           cache-to: type=registry,ref=ghcr.io/${{ github.repository_owner }}/philipjurke-${{ steps.set_env.outputs.environment }}:buildcache,mode=max
+
+      - name: Deploy to server via SSH
+        if: success()
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            cd /projects/reverse-proxy
+            docker-compose pull philipjurke-${{ steps.set_env.outputs.environment }}
+            docker-compose up -d --no-deps philipjurke-${{ steps.set_env.outputs.environment }}
+            docker image prune -f
