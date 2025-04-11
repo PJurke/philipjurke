@@ -27,6 +27,9 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GHCR_TOKEN }}
 
+      # --cache-from type=gha -> Tries to load the cache from GitHub Actions cache (GHAC)
+      # --cache-to type=gha,mode=max -> Puts build layer to GHAC
+
       - name: Build and Push Docker Image
         run: |
           OWNER_LC=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
@@ -35,5 +38,7 @@ jobs:
           docker buildx create --use
           docker buildx build \
             --platform linux/arm64 \
+            --cache-from type=gha \
+            --cache-to type=gha,mode=max \
             -t $IMAGE_NAME:latest \
             --push .
