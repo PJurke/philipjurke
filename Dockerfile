@@ -19,8 +19,9 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Provisional verbose build
-ENV NEXT_VERBOSE=1 
+# Environment variables
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV NEXT_VERBOSE=1
 
 # Build the Next.js app
 RUN npm run build
