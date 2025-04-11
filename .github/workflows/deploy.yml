@@ -29,6 +29,10 @@ jobs:
         id: set_env
         run: echo "environment=${{ github.event.inputs.environment }}" >> $GITHUB_OUTPUT
 
+      - name: Lowercase Repository Owner
+        id: case_owner
+        run: echo "repository_owner_lc=$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
