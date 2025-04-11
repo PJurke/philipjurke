@@ -13,12 +13,17 @@ jobs:
     name: Build and Push to GHCR
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+      packages: write
+      actions: write
+
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
 
       - name: Log in to GitHub Container Registry (GHCR)
         uses: docker/login-action@v3
@@ -35,10 +40,16 @@ jobs:
           OWNER_LC=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
           IMAGE_NAME=ghcr.io/$OWNER_LC/philipjurke-${{ github.event.inputs.environment }}
           
+          CACHE_IMAGE_NAME=$IMAGE_NAME:buildcache
+
+          echo "Building image: $IMAGE_NAME"
+          echo "Using cache image: $CACHE_IMAGE_NAME"
+
           docker buildx create --use
+
           docker buildx build \
             --platform linux/arm64 \
-            --cache-from type=gha \
-            --cache-to type=gha,mode=max \
+            --cache-from type=registry,ref=$CACHE_IMAGE_NAME \
+            --cache-to type=registry,ref=$CACHE_IMAGE_NAME,mode=max \
             -t $IMAGE_NAME:latest \
             --push .
