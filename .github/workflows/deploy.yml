@@ -83,7 +83,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            cd /projects/reverse-proxy
+            cd projects/reverse-proxy
             docker compose pull philipjurke-${{ steps.set_env.outputs.environment }}
             docker compose up -d --no-deps philipjurke-${{ steps.set_env.outputs.environment }}
             docker image prune -f
