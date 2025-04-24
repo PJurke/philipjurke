@@ -55,11 +55,8 @@ jobs:
             # Environment-specific tag per commit: test-sha-a1b2c3d / prod-sha-a1b2c3d
             type=sha,prefix=${{ steps.set_env.outputs.environment }}-sha-
 
-            # Environment-specific "latest" tag: test-latest / prod-latest
-            type=raw,value=${{ steps.set_env.outputs.environment }}-latest
-
-            # General 'latest' tag only if environment is 'prod'
-            type=raw,value=latest,enable=${{ github.event.inputs.environment == 'prod' }}
+            # General 'latest' tag - Pushed for BOTH test and prod images now
+            type=raw,value=latest
 
       - name: Build and push Docker image
         id: build_push
@@ -83,7 +80,15 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
+            # Login to GHCR on the server
+            echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+            # Navigate to the directory
             cd /srv/reverse-proxy
+
+            # Restart/update container
             docker compose pull philipjurke-${{ steps.set_env.outputs.environment }}
             docker compose up -d --no-deps philipjurke-${{ steps.set_env.outputs.environment }}
+
+            # Clean up old, unused images (optional but recommended)
             docker image prune -f
