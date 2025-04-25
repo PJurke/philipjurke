@@ -4,7 +4,7 @@ import FiveLifeAspectsSection from "./_components/FiveLifeAspectsSection";
 export default function Home() {
   return (
 
-    <main className="grid grid-cols-12 gap-4">
+    <main className="grid grid-cols-12">
       <HeroSection />
       <FiveLifeAspectsSection />
     </main>
