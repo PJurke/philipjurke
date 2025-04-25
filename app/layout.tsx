@@ -21,11 +21,13 @@ const poppins = localFont({
 });
 
 export const metadata: Metadata = {
+  authors: [{ name: 'Philip Jurke' }],
+  description: 'Philip Jurke: Insights beyond the profession. Discover my world between work, family, personal and social commitment.',
+  keywords: [ 'About me', 'Agile Coach', 'Coaching', 'Democracy', 'Liberalism', 'Personal', 'Personal Leadership', 'Philip Jurke', 'Simon Sinek', 'Stephen R. Covey' ],
   title: {
     default: "Philip Jurke",
     template: "%s | Philip Jurke"
-  },
-  keywords: [ "About me", "Agile Coach", "Coaching", "Democracy", "Liberalism", "Personal Leadership", "Philip Jurke", "Simon Sinek", "Stephen R. Covey" ]
+  }
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>): JSX.Element {
