@@ -84,7 +84,7 @@ jobs:
             echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
             # Navigate to the directory
-            cd /srv/reverse-proxy
+            cd /srv/philipjurke
 
             # Restart/update container
             docker compose pull philipjurke-${{ steps.set_env.outputs.environment }}
