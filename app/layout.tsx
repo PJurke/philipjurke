@@ -23,6 +23,9 @@ const poppins = localFont({
 export const metadata: Metadata = {
   authors: [{ name: 'Philip Jurke' }],
   description: 'Philip Jurke: Insights beyond the profession. Discover my world between work, family, personal and social commitment.',
+  icons: {
+    icon: '/favicon.svg'
+  },
   keywords: [ 'About me', 'Agile Coach', 'Coaching', 'Democracy', 'Liberalism', 'Personal', 'Personal Leadership', 'Philip Jurke', 'Simon Sinek', 'Stephen R. Covey' ],
   title: {
     default: "Philip Jurke",
