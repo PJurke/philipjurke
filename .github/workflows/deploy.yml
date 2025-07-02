@@ -12,7 +12,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy to Production Server via SSH
+
+      - name: Checkout repository code
+        uses: actions/checkout@v4
+      
+      - name: Copy source code to server
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          source: "."
+          target: "/srv/web-apps/philipjurke/prod"
+
+      - name: Execute deployment script on server
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -21,8 +35,6 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             set -e
-
             echo "Executing deployment script on server..."
-            DEPLOY_SCRIPT_PATH="/srv/web-apps/philipjurke/deploy.sh"
-            ${DEPLOY_SCRIPT_PATH}
+            /srv/web-apps/philipjurke/deploy.sh
             echo "Execution of the deployment script completed."
