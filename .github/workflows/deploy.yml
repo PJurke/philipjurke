@@ -10,31 +10,23 @@ jobs:
 
     name: Deploy PhilipJurke to Production Server via SSH
     runs-on: ubuntu-latest
-
+    
     steps:
-
+      
+      # Step 1: Check out code from the repository
       - name: Checkout repository code
         uses: actions/checkout@v4
       
-      - name: Copy source code to server
-        uses: appleboy/scp-action@v0.1.4
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.SSH_PORT }}
-          source: "."
-          target: "/srv/web-apps/philipjurke/prod"
-
-      - name: Execute deployment script on server
-        uses: appleboy/ssh-action@v1.0.3
+      # Step 2: Log in to the VPS and run the deployment script
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@v1.2.2
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            set -e
-            echo "Executing deployment script on server..."
-            /srv/web-apps/philipjurke/deploy.sh
-            echo "Execution of the deployment script completed."
+            cd /srv/web-apps/philipjurke/prod
+            git pull origin main
+            sudo docker-compose up --build -d
+            sudo docker image prune -f
