@@ -52,6 +52,9 @@ jobs:
           path: 'infrastructure'
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
 
+      - name: DEBUG - Show Inventory File Content
+        run: cat infrastructure/inventory.ini
+
       - name: Deploy to Staging
         uses: dawidd6/action-ansible-playbook@v2
         with:
