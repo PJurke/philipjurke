@@ -62,7 +62,6 @@ jobs:
           options: |
             --inventory infrastructure/inventory.ini
             --extra-vars "app_name=philipjurke env=staging image_tag=${{ github.sha }}"
-            --tags staging,philipjurke
 
       - name: Deploy to Production
         uses: dawidd6/action-ansible-playbook@v2
@@ -75,4 +74,3 @@ jobs:
           options: |
             --inventory infrastructure/inventory.ini
             --extra-vars "app_name=philipjurke env=production image_tag=${{ github.sha }}"
-            --tags production,philipjurke
