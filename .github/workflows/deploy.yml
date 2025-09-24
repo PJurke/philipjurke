@@ -52,18 +52,6 @@ jobs:
           path: 'infrastructure'
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
 
-      - name: 🔬 DEBUG - Test SSH Connection
-        run: |
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key.pem
-          chmod 600 private_key.pem
-          
-          ssh -v \
-            -i private_key.pem \
-            -p 3344 \
-            -o StrictHostKeyChecking=no \
-            adminuser@152.53.137.71 \
-            "echo 'SUCCESS: Connected as $(whoami)'"
-
       - name: Deploy to Staging
         uses: dawidd6/action-ansible-playbook@v2
         with:
