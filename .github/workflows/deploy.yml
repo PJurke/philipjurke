@@ -22,11 +22,12 @@ jobs:
         run: echo "IMAGE_NAME=$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
       - name: Login to GitHub Container Registry
-        uses: redhat-actions/podman-login@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          podman login ghcr.io \
+            -u "${{ github.actor }}" \
+            -p "${{ secrets.GITHUB_TOKEN }}" \
+            --authfile /run/containers/0/auth.json
+          echo "REGISTRY_AUTH_FILE=/run/containers/0/auth.json" >> $GITHUB_ENV
 
       - name: Build and Push Podman Image
         uses: redhat-actions/buildah-build@v2
