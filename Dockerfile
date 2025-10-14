@@ -1,5 +1,5 @@
 # ----- STEP 1: Define the base image
-FROM node:22-alpine AS base
+FROM node:22-bookworm-slim AS base
 
 
 # ----- STEP 2: Install necessary packages
