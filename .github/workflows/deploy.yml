@@ -21,22 +21,32 @@ jobs:
       - name: Set lower case repository name
         run: echo "IMAGE_NAME=$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
-      - name: Login to GitHub Container Registry
+      - name: Log in to GitHub Container Registry
         run: |
+          mkdir -p /run/containers/0
           podman login ghcr.io \
             -u "${{ github.actor }}" \
             -p "${{ secrets.GITHUB_TOKEN }}" \
             --authfile /run/containers/0/auth.json
           echo "REGISTRY_AUTH_FILE=/run/containers/0/auth.json" >> $GITHUB_ENV
 
-      - name: Build and Push Podman Image
-        uses: redhat-actions/buildah-build@v2
-        with:
-          image: ghcr.io/${{ env.IMAGE_NAME }}
-          tags: ${{ github.sha }}
-          platforms: linux/arm64
-          containerfiles: |
-            ./Dockerfile
+      - name: Build Podman image with cache
+        run: |
+          podman build \
+            --platform linux/arm64 \
+            --layers \
+            -t ghcr.io/${{ env.IMAGE_NAME }}:${{ github.sha }} \
+            -f ./Dockerfile .
+
+      - name: Tag image as 'latest'
+        run: podman tag ghcr.io/${{ env.IMAGE_NAME }}:${{ github.sha }} ghcr.io/${{ env.IMAGE_NAME }}:latest
+
+      - name: Push image to GHCR
+        run: |
+          podman push ghcr.io/${{ env.IMAGE_NAME }}:${{ github.sha }} \
+            --authfile /run/containers/0/auth.json
+          podman push ghcr.io/${{ env.IMAGE_NAME }}:latest \
+            --authfile /run/containers/0/auth.json
 
   deploy:
     needs: build
