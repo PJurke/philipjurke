@@ -8,7 +8,7 @@ WORKDIR /app
 
 # Copy dependencies
 COPY package*.json ./
-RUN npm ci
+RUN npm ci --verbose --unsafe-perm
 
 
 # ----- STEP 3: Build the application
