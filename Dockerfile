@@ -1,5 +1,5 @@
 # ----- STEP 1: Define the base image
-FROM node:23-alpine AS base
+FROM node:22-alpine AS base
 
 
 # ----- STEP 2: Install necessary packages
