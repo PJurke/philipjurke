@@ -31,14 +31,20 @@ RUN npm run build
 FROM base AS runner
 WORKDIR /app
 
+# Install curl for health checks
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+
 # Create a user and a group for the application
-RUN addgroup -S -g 1001 nodejs
-RUN adduser -S -u 1001 -G nodejs nextjs
+RUN groupadd -r nodejs && useradd -r -g nodejs nextjs
 
 ENV NODE_ENV=production
 ENV PORT=3000
 
 EXPOSE 3000
+
+# Checks if the web app is alive every 30 seconds
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s \
+  CMD curl -f http://localhost:3000/ || exit 1
 
 # Copy only the necessary files from the builder stage
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
