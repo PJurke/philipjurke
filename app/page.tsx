@@ -1,5 +1,6 @@
 import HeroSection from "./_components/HeroSection";
 import FiveLifeAspectsSection from "./_components/FiveLifeAspectsSection";
+import ToolsSection from "./_components/ToolsSection";
 
 export default function Home() {
   return (
@@ -7,6 +8,7 @@ export default function Home() {
     <main className="grid grid-cols-12">
       <HeroSection />
       <FiveLifeAspectsSection />
+      <ToolsSection />
     </main>
 
   );
