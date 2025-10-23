@@ -22,7 +22,7 @@ const poppins = localFont({
 
 export const metadata: Metadata = {
   authors: [{ name: 'Philip Jurke' }],
-  description: 'Philip Jurke: Insights beyond the profession. Discover my world between work, family, personal and social commitment.',
+  description: 'An agile coach on the path to balance. Discover the five aspects of my life—from professional to personal. A site that grows with me and my experiences.',
   icons: {
     icon: '/favicon.svg'
   },
@@ -34,8 +34,19 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>): JSX.Element {
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    'name': 'Philip Jurke',
+    'url': 'https://philipjurke.de/',
+  };
+
   return (
     <html lang="en">
+      <head>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      </head>
       <body className={poppins.className}>
         {children}
         <Footer />
