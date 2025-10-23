@@ -3,15 +3,17 @@ export default function FiveLifeAspectsSection() {
     const lifeAspects: string[] = [ "Me", "Family", "Friends", "Work", "Society" ];
 
     return (
-        <section className="col-span-12 grid-cols-subgrid px-8 py-8 lg:py-20 text-center">
-            <h2 className="font-semibold mb-2 text-4xl">Five Life Aspects</h2>
-            <p className="max-w-prose mb-4 mx-auto text-gray-700">
-                I organize my life into five aspects.<br/>
-                My goal is to achieve long-term balance among them:
-            </p>
-            <ul>
+        <section className="col-span-12 flex flex-col items-center px-8 py-12 lg:py-20 text-center">
+            <div className="flex flex-col items-center gap-3 text-center">
+                <h2 className="font-semibold text-3xl md:text-4xl text-slate-800">Five Life Aspects</h2>
+                <p className="max-w-prose mx-auto font-light text-lg md:text-xl text-slate-600">
+                    I organize my life into five aspects, with the goal of achieving long-term balance among them.
+                </p>
+            </div>
+
+            <ul className="flex flex-col items-center gap-3 mt-8">
                 { lifeAspects.map((aspect) => (
-                    <li className="p-2" key={aspect}>{aspect}</li>
+                    <li className="font-normal text-lg md:text-xl text-slate-700" key={aspect}>{aspect}</li>
                 ))}
             </ul>
         </section>
