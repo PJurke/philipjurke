@@ -3,6 +3,8 @@ export default function ToolsSection() {
     // Die von dir genannte Liste
     const tools: string[] = [
         "Affinity Publisher",
+        "Canva",
+        "Capacities",
         "ChatGPT",
         "Confluence",
         "Gemini",
@@ -13,9 +15,10 @@ export default function ToolsSection() {
 
     return (
         <section className="bg-gray-50 col-span-12 px-8 py-8 lg:py-20 text-center">
-            <h2 className="font-extralight text-4xl mb-2">Tools</h2>
-            <p className="max-w-prose mb-4 mx-auto text-gray-400">
-                I regularly use a range of tools to advance my work and personal projects.
+            <h2 className="font-semibold text-4xl mb-2">Tools</h2>
+            <p className="max-w-prose mb-4 mx-auto text-gray-700">
+                I regularly use a range of tools to advance my work, but also my personal projects.
+                The boundaries between the two are often blurred.
             </p>
             
             {/* Mobile-First Grid: 
