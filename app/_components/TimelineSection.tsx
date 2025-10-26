@@ -11,7 +11,7 @@ type TimelineEvent = {
 const events: TimelineEvent[] = [
     { date: "1992-01-08", category: "Personal", title: "Birth in Leipzig" },
     { date: "2010-09-30", category: "Education", title: "A-levels at the BIP Kreativitätsgymnasium Leipzig" },
-    { date: "2015-08-31", category: "Qualification", title: "IT specialist for application development" },
+    { date: "2015-08-31", category: "Qualification", title: "IT Specialist for Application Development" },
     { date: "2018-07-31", category: "Degree", title: "B.Sc. Business Information Systems" },
     { date: "2018-09-03", category: "Career", title: "Start at Deutsche Telekom IT GmbH" },
     { date: "2021-03-31", category: "Certification", title: "SAFe Scrum Master" },
