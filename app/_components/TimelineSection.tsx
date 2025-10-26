@@ -4,20 +4,21 @@ import { JSX } from "react";
 type TimelineEvent = {
     // YYYY-MM-DD
     date: string;
-    category: 'Career' | 'Certification' | 'Current' | 'Degree' | 'Education' | 'Personal' | 'Qualification' | 'Training';
+    category: 'Me' | 'Family' | 'Friends' | 'Work' | 'Society' | 'Today';
     title: string;
 }
 
 const events: TimelineEvent[] = [
-    { date: "1992-01-08", category: "Personal", title: "Birth in Leipzig" },
-    { date: "2010-09-30", category: "Education", title: "A-levels at the BIP Kreativitätsgymnasium Leipzig" },
-    { date: "2015-08-31", category: "Qualification", title: "IT Specialist for Application Development" },
-    { date: "2018-07-31", category: "Degree", title: "B.Sc. Business Information Systems" },
-    { date: "2018-09-03", category: "Career", title: "Start at Deutsche Telekom IT GmbH" },
-    { date: "2021-03-31", category: "Certification", title: "SAFe Scrum Master" },
-    { date: "2021-11-30", category: "Certification", title: "SAFe Advanced Scrum Master" },
-    { date: "2021-12-31", category: "Training", title: "LevelUp! NextGen Leadership Training" },
-    { date: "2022-09-30", category: "Training", title: "Agile Coach Training" },
+    { date: "1992-01-08", category: "Me", title: "Birth in Leipzig" },
+    //{ date: "2010-09-30", category: "Work", title: "A-levels at the BIP Kreativitätsgymnasium Leipzig" },
+    //{ date: "2015-08-31", category: "Work", title: "IT Specialist for Application Development" },
+    { date: "2018-07-31", category: "Work", title: "B.Sc. Business Information Systems" },
+    { date: "2018-09-03", category: "Work", title: "Start at Deutsche Telekom IT GmbH" },
+    //{ date: "2021-03-31", category: "Work", title: "SAFe Scrum Master" },
+    //{ date: "2021-11-30", category: "Work", title: "SAFe Advanced Scrum Master" },
+    //{ date: "2021-12-31", category: "Work", title: "LevelUp! NextGen Leadership Training" },
+    { date: "2022-09-30", category: "Work", title: "Agile Coach Training" },
+    { date: "2024-10-02", category: "Society", title: "Starting work on Text Review" },
 ];
 
 function formatDisplayDate(isoDate: string): string {
@@ -37,7 +38,7 @@ export default function TimelineSection(): JSX.Element {
 
     const todayEvent: TimelineEvent = {
         date: getTodayAsIsoDate(),
-        category: "Current",
+        category: "Today",
         title: "Agile Coach"
     };
 
