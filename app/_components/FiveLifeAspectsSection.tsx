@@ -11,9 +11,12 @@ export default function FiveLifeAspectsSection() {
                 </p>
             </div>
 
-            <ul className="flex flex-col items-center gap-3 mt-8">
+            <ul className="flex flex-row flex-wrap justify-center items-center gap-3 max-w-sm mt-8 mx-auto">
                 { lifeAspects.map((aspect) => (
-                    <li className="font-normal text-lg md:text-xl text-slate-700" key={aspect}>{aspect}</li>
+                    <li className="bg-white rounded-full shadow-sm
+                                   font-normal text-lg md:text-xl
+                                   px-6 py-2
+                                 text-slate-700" key={aspect}>{aspect}</li>
                 ))}
             </ul>
         </section>
