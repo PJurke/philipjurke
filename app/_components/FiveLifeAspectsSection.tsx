@@ -1,6 +1,18 @@
-export default function FiveLifeAspectsSection() {
+interface LifeAspect {
+  name: string;
+  hoverBg: string;
+  hoverShadow: string;
+}
 
-    const lifeAspects: string[] = [ "Me", "Family", "Friends", "Work", "Society" ];
+const lifeAspects: LifeAspect[] = [
+    { name: "Me", hoverBg: "hover:bg-emerald-50", hoverShadow: "hover:shadow-emerald-200" },
+    { name: "Family", hoverBg: "hover:bg-orange-50", hoverShadow: "hover:shadow-orange-200" },
+    { name: "Friends", hoverBg: "hover:bg-amber-50", hoverShadow: "hover:shadow-amber-200" },
+    { name: "Work", hoverBg: "hover:bg-blue-50", hoverShadow: "hover:shadow-blue-200" },
+    { name: "Society", hoverBg: "hover:bg-red-50", hoverShadow: "hover:shadow-red-200" }
+] as const;
+
+export default function FiveLifeAspectsSection() {
 
     return (
         <section className="col-span-12 flex flex-col items-center px-8 py-12 lg:py-20 text-center">
@@ -13,10 +25,17 @@ export default function FiveLifeAspectsSection() {
 
             <ul className="flex flex-row flex-wrap justify-center items-center gap-3 max-w-sm mt-8 mx-auto">
                 { lifeAspects.map((aspect) => (
-                    <li className="bg-white rounded-full shadow-sm
+                    <li className={`bg-white rounded-full shadow-sm
                                    font-normal text-lg md:text-xl
                                    px-6 py-2
-                                 text-slate-700" key={aspect}>{aspect}</li>
+                                   text-slate-700
+                                   cursor-default
+                                   transition-all duration-200
+                                   ${aspect.hoverBg}
+                                   ${aspect.hoverShadow}`}
+                        key={aspect.name}>
+                        {aspect.name}
+                    </li>
                 ))}
             </ul>
         </section>
