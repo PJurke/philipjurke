@@ -2,7 +2,7 @@ export default function ToolsSection() {
 
     // Die von dir genannte Liste
     const tools: string[] = [
-        "Affinity Publisher",
+        "Affinity",
         "Canva",
         "Capacities",
         "ChatGPT",
