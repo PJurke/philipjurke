@@ -74,6 +74,8 @@ jobs:
 
       - name: Deploy to Staging
         uses: dawidd6/action-ansible-playbook@v2
+        env:
+          ANSIBLE_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           playbook: playbooks/deploy-app.yml
           directory: ./
@@ -81,7 +83,7 @@ jobs:
           vault_password: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
           options: |
             --inventory playbooks/inventory.ini
-            --extra-vars "app_name=philipjurke env=staging image_tag=${{ github.sha }}"
+            --extra-vars "app_name=philipjurke env=staging image_tag=${{ github.sha }} GITHUB_USERNAME=${{ github.actor }} GITHUB_TOKEN=${{ env.ANSIBLE_GITHUB_TOKEN }}"
 
   deploy_production:
     needs: deploy_staging
@@ -102,6 +104,8 @@ jobs:
 
       - name: Deploy to Production
         uses: dawidd6/action-ansible-playbook@v2
+        env:
+          ANSIBLE_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           playbook: playbooks/deploy-app.yml
           directory: ./
@@ -110,4 +114,4 @@ jobs:
           vault_password: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
           options: |
             --inventory playbooks/inventory.ini
-            --extra-vars "app_name=philipjurke env=production image_tag=${{ github.sha }}"
+            --extra-vars "app_name=philipjurke env=production image_tag=${{ github.sha }} GITHUB_USERNAME=${{ github.actor }} GITHUB_TOKEN=${{ env.ANSIBLE_GITHUB_TOKEN }}"
