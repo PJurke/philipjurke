@@ -65,19 +65,22 @@ jobs:
       - name: Checkout Infrastructure Repository
         uses: actions/checkout@v4
         with:
-          repository: pjurke/infrastructure
-          path: 'infrastructure'
+          repository: pjurke/pjurke-ansible-playbooks
+          path: 'playbooks'
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
+
+      - name: Install Ansible Dependencies (Roles & Collections)
+        run: ansible-galaxy install -r playbooks/requirements.yml
 
       - name: Deploy to Staging
         uses: dawidd6/action-ansible-playbook@v2
         with:
-          playbook: infrastructure/deploy-app.yml
+          playbook: playbooks/deploy-app.yml
           directory: ./
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           vault_password: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
           options: |
-            --inventory infrastructure/inventory.ini
+            --inventory playbooks/inventory.ini
             --extra-vars "app_name=philipjurke env=staging image_tag=${{ github.sha }}"
 
   deploy_production:
@@ -90,18 +93,21 @@ jobs:
       - name: Checkout Infrastructure Repository
         uses: actions/checkout@v4
         with:
-          repository: pjurke/infrastructure
-          path: 'infrastructure'
+          repository: pjurke/pjurke-ansible-playbooks
+          path: 'playbooks'
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
+
+      - name: Install Ansible Dependencies (Roles & Collections)
+        run: ansible-galaxy install -r playbooks/requirements.yml
 
       - name: Deploy to Production
         uses: dawidd6/action-ansible-playbook@v2
         with:
-          playbook: infrastructure/deploy-app.yml
+          playbook: playbooks/deploy-app.yml
           directory: ./
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           inventory: infrastructure/inventory.ini
           vault_password: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
           options: |
-            --inventory infrastructure/inventory.ini
+            --inventory playbooks/inventory.ini
             --extra-vars "app_name=philipjurke env=production image_tag=${{ github.sha }}"
