@@ -5,7 +5,7 @@ export default function HeroSection() {
                 Philip Jurke
             </h1>
             <p className="font-light text-2xl md:text-3xl lg:text-4xl text-slate-600">
-                Agile Coach and Citizen
+                Agile Coach and Person
             </p>
         </section>
     );
